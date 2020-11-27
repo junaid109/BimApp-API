@@ -2,25 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using BimApp.API.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BimApp.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ValuesController : ControllerBase
+    [Authorize]
+    public class ValuesController : BaseApiController
     {
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private readonly DataContext DataContext;
+
+        public ValuesController(DataContext dataContext)
         {
-            return new string[] { "value1", "value2" };
+            DataContext = dataContext;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetVales()
         {
-            return "value";
+            var values = await DataContext.Values.ToListAsync();
+
+            return Ok(values);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetValue(int id)
+        {
+            var value = await DataContext.Values.FirstOrDefaultAsync(x => x.Id == id);
+
+            return Ok(value);
         }
 
         [HttpPost]

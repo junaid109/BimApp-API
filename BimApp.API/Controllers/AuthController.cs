@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BimApp.API.Data;
 using BimApp.API.Dtos;
-using BimApp.API.Models;
+using BimApp.API.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -16,9 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BimApp.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseApiController
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _configuration;
@@ -29,7 +27,7 @@ namespace BimApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegistrationDto)
+        public async Task<IActionResult> Register(AppUserForRegisterDto userForRegistrationDto)
         {
             // validate user request
 
@@ -40,9 +38,9 @@ namespace BimApp.API.Controllers
                 return BadRequest("User-name already exists");
             }
 
-            var userToCreate = new User
+            var userToCreate = new AppUser
             {
-                Username = userForRegistrationDto.Username
+                UserName = userForRegistrationDto.Username
             };
 
             var createdUser = await _repo.Register(userToCreate, userForRegistrationDto.Password);
@@ -52,9 +50,9 @@ namespace BimApp.API.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        public async Task<IActionResult> Login(AppUserForLoginDto userForLoginDto)
         {
-            var userFromRepo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
+            var userFromRepo = await _repo.Login(userForLoginDto.UserName, userForLoginDto.Password);
 
             if (userFromRepo == null)
             {
@@ -64,7 +62,7 @@ namespace BimApp.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
+                new Claim(ClaimTypes.Name, userFromRepo.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8

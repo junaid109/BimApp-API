@@ -1,4 +1,4 @@
-﻿using BimApp.API.Models;
+﻿using BimApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +17,9 @@ namespace BimApp.API.Data
             _dataContext = dataContext;
         }
 
-        public async Task<User> Login(string username, string password)
+        public async Task<AppUser> Login(string username, string password)
         {
-            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Username == username);
+            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             if(user == null)
             {
@@ -51,7 +51,7 @@ namespace BimApp.API.Data
             }
         }
 
-        public async Task<User> Register(User user, string password)
+        public async Task<AppUser> Register(AppUser user, string password)
         {
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -76,7 +76,7 @@ namespace BimApp.API.Data
 
         public async Task<bool> UserExists(string username)
         {
-            if (await _dataContext.Users.AnyAsync(x => x.Username == username))
+            if (await _dataContext.Users.AnyAsync(x => x.UserName == username))
             {
                 return true;
             }

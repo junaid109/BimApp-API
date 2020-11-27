@@ -1,4 +1,4 @@
-﻿using BimApp.API.Models;
+﻿using BimApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,6 @@ namespace BimApp.API.Data
   
         public DbSet<Value> Values { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> Users { get; set; }
     }
 }

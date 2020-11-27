@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BimApp.API.Models
+namespace BimApp.API.Entities
 {
-    public class User
+    public class AppUser
     {
         public int Id { get; set; }
 
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         public byte[] PasswordHash { get; set; }
 
