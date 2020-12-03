@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BimApp.API.Data;
 using BimApp.API.Dtos;
 using BimApp.API.Entities;
+using BimApp.API.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,13 +20,16 @@ namespace BimApp.API.Controllers
     {
         private readonly DataContext _context;
 
-        public AccountController(DataContext context)
+        private ITokenService _tokenService;
+
+        public AccountController(DataContext context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(AppUserForRegisterDto registerDto)
+        public async Task<ActionResult<AppUserDto>> Register(AppUserForRegisterDto registerDto)
         {
             if (await UserExists(registerDto.Username) )
             {
@@ -44,7 +48,13 @@ namespace BimApp.API.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return user;
+
+
+            return new AppUserDto
+            {
+                Username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         private async Task<bool> UserExists(string username)
