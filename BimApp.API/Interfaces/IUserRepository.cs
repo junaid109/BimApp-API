@@ -1,4 +1,5 @@
-﻿using BimApp.API.Entities;
+﻿using BimApp.API.Dtos;
+using BimApp.API.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,9 @@ namespace BimApp.API.Interfaces
         Task<AppUser> GetUserByIdAsync(string id);
 
         Task<AppUser> GetUserByUsernameAsync(string username);
+
+        Task<IEnumerable<MemberDto>> GetMembersAsync();
+
+        Task<MemberDto> GetMemberAsync(string userName);
     }
 }
