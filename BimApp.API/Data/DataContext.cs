@@ -19,5 +19,7 @@ namespace BimApp.API.Data
         public DbSet<Value> Values { get; set; }
 
         public DbSet<AppUser> Users { get; set; }
+
+
     }
 }
