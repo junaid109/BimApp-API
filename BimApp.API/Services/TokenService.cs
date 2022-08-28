@@ -1,5 +1,4 @@
 ﻿using BimApp.API.Entities;
-using BimApp.API.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -44,5 +43,9 @@ namespace BimApp.API.Services
             return tokenHandler.WriteToken(token);
         }
 
+        Task<string> ITokenService.CreateToken(AppUser user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

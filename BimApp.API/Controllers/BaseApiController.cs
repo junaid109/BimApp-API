@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BimApp.API.Controllers
+namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [ServiceFilter(typeof(LogUserActivity))]
     [ApiController]
+    [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
+
     }
 }

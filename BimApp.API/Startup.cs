@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using BimApp.API.Helpers;
 using BimApp.API.Extensions;
-using BimApp.API.Middleware;
 
 namespace BimApp.API
 {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using API.Controllers;
 using BimApp.API.Data;
 using BimApp.API.Dtos;
 using BimApp.API.Entities;

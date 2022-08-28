@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 
-namespace BimApp.API.Extensions
+namespace API.Extensions
 {
     public static class DateTimeExtensions
     {
@@ -11,12 +8,7 @@ namespace BimApp.API.Extensions
         {
             var today = DateTime.Today;
             var age = today.Year - dob.Year;
-
-            if(dob.Date > today.AddYears(-age))
-            {
-                age--;
-            }
-
+            if (dob.Date > today.AddYears(-age)) age--;
             return age;
         }
     }
